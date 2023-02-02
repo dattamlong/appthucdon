@@ -1,8 +1,8 @@
 import SimpleSidebar from "./components/sidebar/sidebar";
 import Page from "./pages";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
 import BuildMenu from "./pages/buildMenu/BuildMenu";
 
-import { Route, BrowserRouter, Routes } from "react-router-dom";
 import AllDishes from "./pages/allDishes/AllDishes";
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
             <Route path="buildMenu" element={<BuildMenu />} />
           </Route>
           <Route element={<Page />}>
-            <Route path="allDishes" element={<AllDishes />} />
+            <Route path="" element={<AllDishes />} />
           </Route>
         </Routes>
       </BrowserRouter>

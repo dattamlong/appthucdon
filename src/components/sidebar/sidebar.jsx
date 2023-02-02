@@ -17,7 +17,7 @@ import {
 
 const LinkItems = [
   { name: "Build menu", icon: "", link: "buildMenu" },
-  { name: "All Dishes", icon: "", link: "allDishes" },
+  { name: "All Dishes", icon: "", link: "/" },
 ];
 
 const SimpleSidebar = ({ children }) => {

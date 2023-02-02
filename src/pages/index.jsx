@@ -2,6 +2,7 @@ import { Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import SimpleSidebar from "../components/sidebar/sidebar";
 
+
 const Page = () => {
   return (
     <Grid
@@ -18,8 +19,11 @@ const Page = () => {
         <SimpleSidebar />
       </GridItem>
       <GridItem pl="2" bg="green.300" area={"main"}>
-        Main
+        
+        <Outlet></Outlet>
       </GridItem>
+      
+      
     </Grid>
   );
 };
