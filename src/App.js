@@ -1,19 +1,20 @@
-import SimpleSidebar from "./components/sidebar/sidebar";
-import Page from "./pages";
-import { Route, BrowserRouter, Routes } from "react-router-dom";
-import BuildMenu from "./pages/buildMenu/BuildMenu";
+import { Route, BrowserRouter, Routes, NavLink } from "react-router-dom";
 
-import AllDishes from "./pages/allDishes/AllDishes";
-function App() {
+import Page from "./pages";
+import BuildMenu from "./pages/buildMenu/BuildMenu";
+import AllDishes from "./pages/AllDishes/AllDishes";
+import Dish from "./pages/AllDishes/Dish";
+
+function App({ data }) {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route element={<Page />}>
-            <Route path="buildMenu" element={<BuildMenu />} />
-          </Route>
-          <Route element={<Page />}>
-            <Route path="" element={<AllDishes />} />
+          <Route path="/" element={<Page />}>
+            <Route path="/" element={<AllDishes />}>
+              <Route path="/:id" element={<Dish />} />
+            </Route>
+            <Route path="build" element={<BuildMenu />} />
           </Route>
         </Routes>
       </BrowserRouter>

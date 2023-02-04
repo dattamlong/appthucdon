@@ -1,58 +1,66 @@
-import { Box } from "@chakra-ui/react";
-import { Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
-import { Image } from '@chakra-ui/react'
+import { Box, chakra, Grid } from "@chakra-ui/react";
 import CardItem from "./CartItem";
-import { Card, CardHeader, CardBody, CardFooter, Stack, Heading, Text, Divider } from '@chakra-ui/react';
-import { Outlet } from "react-router-dom";
+import useDish from "../../hooks/useDish";
+import { useNavigate, useParams } from "react-router-dom";
+import Dish from "./Dish";
+import { useEffect, useState } from "react";
+import _ from "lodash";
+import { AnimatePresence, motion } from "framer-motion";
 
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
 
 const AllDishes = () => {
+  const navigate = useNavigate();
+  const { dish } = useDish();
+  const { id } = useParams();
+  const [data, setData] = useState(() => {
+    const value = dish?.filter((item) => +item.id === +id);
+    console.log(value);
+    return value ?? null;
+  });
+  useEffect(() => {
+    if (id) {
+      const value = dish?.filter((item) => +item.id === +id);
+      setData(value);
+    } else {
+      setData(null);
+    }
+  }, [id]);
 
-    const Itemdata = [
-      {
-          id: "1",
-          image:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-          nguyenlieu: "",
-          cachchebien: "scascs",
-          
-      },
-      {
-          id: "2",
-          image:" ",
-          nguyenlieu: "sdf",
-          cachchebien: "scascs",
-      },
-      {
-          id: "3",
-          image:" ",
-          nguyenlieu: "sf",
-          cachchebien: "scascs",
-      },
-      {
-          id: "4",
-          image:" ",
-          nguyenlieu: "dfgsd",
-          cachchebien: "scascs",
-      }
-  ]
- 
-  
-  
   return (
-
-    
-    <Box >
-      <Grid templateColumns='repeat(5, 1fr)' gap={6}>
-      {Itemdata.map((item,index) => {
-        return (
-          <CardItem
-            key={index} data={item}
-          />
-          )
-        })}
-        </Grid>
-  </Box>
-  )
+    <Box>
+      <AnimatePresence mode="popLayout">
+        {!_.isEmpty(data) ? (
+          <Dish key="dish" data={data} onClose={() => navigate("/")} />
+        ) : (
+          <Grid
+            as={motion.ul}
+            layout
+            variants={container}
+            initial="hidden"
+            animate="visible"
+            templateColumns="repeat(4, 1fr)"
+            gap={6}
+          >
+            {dish &&
+              dish.map((item) => {
+                return <CardItem key={item.id} data={item} />;
+              })}
+          </Grid>
+        )}
+      </AnimatePresence>
+    </Box>
+  );
 };
 
 export default AllDishes;

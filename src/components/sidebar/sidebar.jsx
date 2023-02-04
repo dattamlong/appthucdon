@@ -1,98 +1,144 @@
-import React, { ReactNode } from "react";
-import {
-  IconButton,
-  Box,
-  CloseButton,
-  Flex,
-  Icon,
-  useColorModeValue,
-  Link,
-  Drawer,
-  DrawerContent,
-  Text,
-  useDisclosure,
-  BoxProps,
-  FlexProps,
-} from "@chakra-ui/react";
+import React from "react";
+import { NavLink as RouterLink } from "react-router-dom";
+import { Box, Center, Flex, Link, Text } from "@chakra-ui/react";
+import { FiHome } from "react-icons/fi";
+import { GoGear } from "react-icons/go";
+import { motion } from "framer-motion";
 
-const LinkItems = [
-  { name: "Build menu", icon: "", link: "buildMenu" },
-  { name: "All Dishes", icon: "", link: "/" },
-];
-
-const SimpleSidebar = ({ children }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+const Sidebar = () => {
   return (
-    <Box minH="100vh" bg="gray.100">
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: "none", md: "block" }}
-      />
+    <Box w="100%" h="100%" py="20%" px="20%">
+      <SidebarContent />
     </Box>
   );
 };
 
-const SidebarContent = ({ onClose, ...rest }) => {
+const SidebarContent = () => {
+  const defaultLink = {
+    container: {
+      backgroundColor: "tramsparent",
+      color: "#9b9ca1",
+    },
+    icon: {
+      backgroundColor: "white",
+      color: "#a2a4b6",
+    },
+  };
+
+  const activeLink = {
+    container: {
+      backgroundColor: "#f87193",
+      color: "white",
+    },
+    icon: {
+      backgroundColor: "#ec6083",
+      color: "white",
+    },
+  };
+
   return (
-    <Box
-      bg="white"
-      borderRight="1px"
-      borderRightColor="gray.200"
-      w={{ base: "full", md: 60 }}
-      pos="fixed"
-      h="full"
-      {...rest}
-    >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+    <Flex justifyContent="center" w="100%" wrap="wrap">
+      <Text fontSize="xl" fontWeight="bold">
+        HELLO
+      </Text>
+      <Flex mt={10} wrap="wrap" gap={4}>
+        <Link
+          as={RouterLink}
+          to="/"
+          style={{ textDecoration: "none" }}
+          _focus={{ boxShadow: "none" }}
+        >
+          {({ isActive }) => {
+            const { container, icon } = isActive ? activeLink : defaultLink;
+
+            return (
+              <Flex
+                as={motion.button}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                w="10vw"
+                minHeight="65px"
+                fontWeight="bold"
+                sx={{
+                  borderRadius: "15px",
+                  backgroundColor: container.backgroundColor,
+                }}
+              >
+                <Center
+                  fontSize="2xl"
+                  sx={{
+                    borderRadius: "15px",
+                    backgroundColor: icon.backgroundColor,
+                    color: icon.color,
+                  }}
+                  h="65px"
+                  w="65px"
+                >
+                  <FiHome />
+                </Center>
+                <Center
+                  h="65px"
+                  color="white"
+                  textAlign="center"
+                  alignItems="center"
+                  sx={{ color: container.color }}
+                >
+                  <Text>Tất cả các món ăn</Text>
+                </Center>
+              </Flex>
+            );
+          }}
+        </Link>
+        <Link
+          as={RouterLink}
+          to="/build"
+          style={{ textDecoration: "none" }}
+          _focus={{ boxShadow: "none" }}
+        >
+          {({ isActive }) => {
+            const { container, icon } = isActive ? activeLink : defaultLink;
+
+            return (
+              <Flex
+                as={motion.button}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                w="10vw"
+                minHeight="65px"
+                sx={{
+                  borderRadius: "15px",
+                  backgroundColor: container.backgroundColor,
+                }}
+                fontWeight="bold"
+              >
+                <Center
+                  fontSize="2xl"
+                  sx={{
+                    borderRadius: "15px",
+                    backgroundColor: icon.backgroundColor,
+                    color: icon.color,
+                  }}
+                  h="65px"
+                  w="65px"
+                >
+                  <GoGear />
+                </Center>
+                <Center
+                  h="65px"
+                  color="white"
+                  textAlign="center"
+                  alignItems="center"
+                  sx={{ color: container.color }}
+                >
+                  <Text>Xây dựng thực đơn</Text>
+                </Center>
+              </Flex>
+            );
+          }}
+        </Link>
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} link={link.link}>
-          {link.name}
-        </NavItem>
-      ))}
-    </Box>
+    </Flex>
   );
 };
 
-const NavItem = ({ icon, children, ...rest }) => {
-  const { link } = rest;
-  return (
-    <Link
-      href={link}
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: "cyan.400",
-          color: "white",
-        }}
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: "white",
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Link>
-  );
-};
-
-export default SimpleSidebar;
+export default Sidebar;
